@@ -1,7 +1,4 @@
-//#include <SoftwareSerial.h>
-//SoftwareSerial mySerial(1, 2); // RX, TX
 
-boolean serialcomm = false;
 
 float n_input1;
 float n_input2;
@@ -12,7 +9,7 @@ float b;
 
 float prediction;
 
-int nodeNumber = 2;
+int nodeNumber = 1;
 
 int val;
 int avg1;
@@ -22,36 +19,29 @@ int sampleSize = 4;
 
 boolean backPropProcess;
 
+boolean printable=true;
+
 
 
 void setup() {
   
-  pinMode(0, OUTPUT); // neuron out
+  pinMode(5, OUTPUT); // neuron out UNO
+  pinMode(2, INPUT); // this is A1
   pinMode(3, INPUT);
   pinMode(4, INPUT);
 
-  if (serialcomm) {
-    pinMode(1, OUTPUT);
-    pinMode(2, OUTPUT);
-  }
-  else {
-    pinMode(2, INPUT); // this is A1
-  }
 
   // initialize avarage value
 
   avg1 = analogRead(A2);
   avg2 = analogRead(A3);
-  
-  if (!serialcomm){
   avg3 = analogRead(A1);
-  }
 
-if (serialcomm){
-  // set the data rate for the SoftwareSerial port
-//    mySerial.begin(9600);
-//    mySerial.println("Hello, world?");
-}
+// if uno for debug
+Serial.begin(9600);
+Serial.println("Hello, world?");
+
+
   // hardcode the weights and bias
   switch (nodeNumber) {
     case 1:
@@ -95,18 +85,17 @@ void loop() {
   n_input2 = val / 100.0;
 
   // calculate the prediction starting with the weight and bias
-  float z = n_input1 * w1 + n_input2 * w2 + b;
+  float z = (n_input1 * w1) + (n_input2 * w2) + b;
   // make a prediction using sigmoid
   prediction = Sigmoid(z);
 
   int output = int (200 * prediction);
   output = constrain(output, 0, 200);
-  analogWrite(0, output + 55);
+  analogWrite(5, output + 55);
 
-if (!serialcomm){
   val = analogRead(A1);
   avg3 = (avg3 * (sampleSize - 1) + val) / sampleSize;
-
+  
 
   if (avg3 > 500 ) {
     if (!backPropProcess) {
@@ -116,18 +105,19 @@ if (!serialcomm){
     }
   }
   else {
-    backPropProcess = false;  
+    backPropProcess = false;
+
+// print it only once
+    if (printable){
+     Serial.print(n_input1);
+      Serial.print(" : ");
+      Serial.print(n_input2);
+      Serial.print(" : ");
+      Serial.print(prediction);
+      Serial.println();
+      printable=false;
+    }
   }
-}
-else{
-//      mySerial.print("n_input1: ");
-//      mySerial.print(n_input1);
-//      mySerial.print(" n_input2: ");
-//      mySerial.print(n_input2);
-//      mySerial.print(" prediction: ");
-//      mySerial.print(prediction);
-//      mySerial.println();
-}
 
   delay(10);
 
@@ -135,7 +125,7 @@ else{
 
 void backpropagation(int back) {
   //back propagation for hidden layer1
-  float learningRate = 0.02;
+  float learningRate = 0.2;
 
   //here is the difference for hidde layer, the derivative of cost is calculated from previous layer
   // back is output neuron's dcost_dpred*dpred_dz*w1 converted into the range -100 to 100
@@ -152,7 +142,20 @@ void backpropagation(int back) {
   w2 -= learningRate * dcost_dpred * dpred_dz * n_input2;
   b -= learningRate * dcost_dpred * dpred_dz;
   
-
+  Serial.print("back: ");
+  Serial.print(back);
+  Serial.print(" dcost_dpred: ");
+  Serial.print(dcost_dpred);
+  Serial.print(" dpred_dz: ");
+  Serial.print(dpred_dz);
+  Serial.print(" w1: ");
+  Serial.print(w1);
+  Serial.print(" w2: ");
+  Serial.print(w2);
+  Serial.print(" b: ");
+  Serial.print(b);
+  Serial.println();
+  printable=true;
 
   delay(100);
 }

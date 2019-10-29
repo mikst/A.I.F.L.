@@ -69,13 +69,13 @@ buttonStatusB=digitalRead(buttonPinB);
 buttonStatusC=digitalRead(buttonPinC);
 
 if (buttonStatusA==0 && last_buttonStatusA!=buttonStatusA){ 
-  record(1);
-}
-if (buttonStatusB==0 && last_buttonStatusB!=buttonStatusB){
   record(0);
 }
+if (buttonStatusB==0 && last_buttonStatusB!=buttonStatusB){
+  record(2);
+}
 if (buttonStatusC==0 && last_buttonStatusC!=buttonStatusC){
-  record(0.5);
+  record(3);
 }
 
 last_buttonStatusA=buttonStatusA;
@@ -86,7 +86,7 @@ last_buttonStatusC=buttonStatusC;
   delay(10);        // delay in between reads for stability
 }
 
-void record(float guesture){
+void record(int guesture){
   Serial.print("[");
   Serial.print(avg1);
   Serial.print(",");

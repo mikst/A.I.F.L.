@@ -35,7 +35,7 @@ void loop() {
 
   long current = millis();
 
-  if (current - previousMillis >1000){
+  if (current - previousMillis >50){
 previousMillis = current;
  cnt++;
  cnt=cnt%256;
@@ -44,11 +44,11 @@ previousMillis = current;
   //avg2 = (avg2*(sampleSize-1)+POTval)/sampleSize;
   //POTval= avg2;
   LEDval = map (POTval,0,1023,55,255);
-  //analogWrite(9,LEDval);
-  analogWrite(9,cnt);
+  analogWrite(9,LEDval);
+  //analogWrite(9,cnt);
   }
 
-if (current - writingMillis > 1000){
+if (current - writingMillis > 50){
   writingMillis = current;
     // print out the value you read:
 //  Serial.print(1023);

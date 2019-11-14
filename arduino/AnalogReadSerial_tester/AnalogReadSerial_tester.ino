@@ -11,7 +11,7 @@
 */
 
 int avg;
-int sampleSize=8;
+int sampleSize=10;
 
 // the setup routine runs once when you press reset:
 void setup() {

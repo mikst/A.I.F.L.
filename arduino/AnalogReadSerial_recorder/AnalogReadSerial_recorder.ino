@@ -75,7 +75,7 @@ if (buttonStatusB==0 && last_buttonStatusB!=buttonStatusB){
   record(2);
 }
 if (buttonStatusC==0 && last_buttonStatusC!=buttonStatusC){
-  record(3);
+  record(1);
 }
 
 last_buttonStatusA=buttonStatusA;

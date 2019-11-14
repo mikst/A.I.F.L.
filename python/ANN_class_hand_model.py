@@ -2,50 +2,64 @@ import numpy
 import pyttsx3
 
 # data from newGloe_data01
-# paper =1, scissors =2, stone =0
+# paper =1, scissors =2, rock =0
 data=[
-[493,473,401,388,1],
-[601,507,423,600,2],
-[605,819,792,786,0],
-[516,471,413,393,1],
-[626,484,428,736,2],
-[580,772,755,755,0],
-[496,473,419,395,1],
-[599,499,432,613,2],
-[738,439,385,777,2],
-[517,752,710,724,0],
-[785,920,889,901,0],
-[587,820,793,781,0],
-[496,470,442,406,1],
-[469,423,422,379,1],
-[669,449,405,635,2],
-[603,769,761,778,0],
-[489,453,406,380,1],
-[494,480,429,393,1],
-[667,476,413,609,2],
-[674,485,424,627,2],
-[662,811,777,813,0],
-[737,879,839,883,0],
-[733,876,838,882,0],
-[648,457,395,645,2],
-[694,848,800,826,0],
-[489,473,415,387,1],
-[736,494,410,750,2],
-[478,470,396,379,1],
-[466,451,416,382,1],
-[741,905,842,854,0],
-[615,826,765,745,0],
-[621,483,409,583,2],
-[463,465,405,358,1],
-[477,466,393,371,1],
-[655,479,398,620,2],
-[663,794,771,788,0],
-[526,476,404,505,2],
-[652,742,745,769,0],
-[467,449,392,358,1],
-[648,499,405,674,2],
-[829,444,391,824,2],
-[615,511,430,584,2]
+[819,932,896,938,0],
+[697,525,472,733,2],
+[540,540,497,466,1],
+[544,570,486,485,1],
+[514,542,476,455,1],
+[699,544,454,762,2],
+[789,570,466,857,2],
+[781,935,898,913,0],
+[768,931,888,894,0],
+[798,938,902,922,0],
+[811,949,913,930,0],
+[657,540,463,809,2],
+[661,557,480,818,2],
+[663,566,484,819,2],
+[542,570,486,476,1],
+[539,566,489,479,1],
+[539,567,482,473,1],
+[541,575,489,477,1],
+[543,577,491,479,1],
+[751,580,470,874,2],
+[755,588,483,867,2],
+[753,926,891,917,0],
+[761,932,893,915,0],
+[703,539,469,698,2],
+[536,556,486,456,1],
+[773,582,472,855,2],
+[737,903,878,891,0],
+[682,538,460,622,2],
+[517,570,476,467,1],
+[758,577,462,720,2],
+[753,915,901,903,0],
+[754,915,898,899,0],
+[744,906,891,895,0],
+[652,548,472,670,2],
+[713,559,477,771,2],
+[707,566,484,770,2],
+[527,546,479,451,1],
+[539,565,491,470,1],
+[528,562,480,456,1],
+[532,582,465,518,1],
+[840,579,453,850,2],
+[891,553,474,912,2],
+[832,940,923,942,0],
+[693,869,853,854,0],
+[849,914,915,946,0],
+[705,545,476,808,2],
+[713,570,495,823,2],
+[541,530,483,515,1],
+[548,534,489,513,1],
+[781,844,877,889,0],
+[783,843,875,884,0],
+[734,524,457,703,2],
+[716,532,470,758,2],
+[722,539,480,764,2],
+[535,522,474,458,1],
+[557,571,489,496,1],
 ]
 
 
@@ -84,11 +98,12 @@ class Neuron:
 
     def dump(self):
         print("id: ", self.id)
-        print("output: ", self.output_value)
-        print("value: ", self.temp_value)
-        print("bias: ", self.bias)
-        #print("number of inputs: ", len(self.inputNeurons))
-        print("weights: ", self.weights)
+        #print("output: ", self.output_value)
+        #print("value: ", self.temp_value)
+        print("b= ", self.bias, ";")
+        for n in range(len(self.weights)):
+            wname = "w"+ str(n)
+            print(wname, "=", self.weights[n], ";")
 
     def backPropagation(self, target, output):
         if output == 1:
@@ -132,49 +147,43 @@ def connectNetwork():
     hidden1_neurons[0].setInput(input_neurons[0])
     hidden1_neurons[0].setInput(input_neurons[1])
     hidden1_neurons[0].setInput(input_neurons[2])
-    #hidden1_neurons[0].setInput(input_neurons[3])
 
     hidden1_neurons[1].setInput(input_neurons[0])
-    hidden1_neurons[1].setInput(input_neurons[1])
     hidden1_neurons[1].setInput(input_neurons[2])
-    #hidden1_neurons[1].setInput(input_neurons[3])
+    hidden1_neurons[1].setInput(input_neurons[3])
 
-    #hidden1_neurons[2].setInput(input_neurons[0])
+    hidden1_neurons[2].setInput(input_neurons[0])
     hidden1_neurons[2].setInput(input_neurons[1])
-    hidden1_neurons[2].setInput(input_neurons[2])
     hidden1_neurons[2].setInput(input_neurons[3])
 
     hidden1_neurons[3].setInput(input_neurons[1])
     hidden1_neurons[3].setInput(input_neurons[2])
     hidden1_neurons[3].setInput(input_neurons[3])
-    #hidden1_neurons[3].setInput(input_neurons[0])
+
+    #--------------------------------------
 
     hidden2_neurons[0].setInput(hidden1_neurons[0])
     hidden2_neurons[0].setInput(hidden1_neurons[1])
     hidden2_neurons[0].setInput(hidden1_neurons[2])
-    #hidden2_neurons[0].setInput(hidden1_neurons[3])
-
 
     hidden2_neurons[1].setInput(hidden1_neurons[0])
-    hidden2_neurons[1].setInput(hidden1_neurons[2])
     hidden2_neurons[1].setInput(hidden1_neurons[3])
-    #hidden2_neurons[1].setInput(hidden1_neurons[1])
+    hidden2_neurons[1].setInput(hidden1_neurons[2])
 
 
-    hidden2_neurons[2].setInput(hidden1_neurons[1])
     hidden2_neurons[2].setInput(hidden1_neurons[2])
     hidden2_neurons[2].setInput(hidden1_neurons[3])
-    #hidden2_neurons[2].setInput(hidden1_neurons[0])
+    hidden2_neurons[2].setInput(hidden1_neurons[1])
 
+    #--------------------------------------
 
-
-    output_neurons[0].setInput(hidden2_neurons[0])
     output_neurons[0].setInput(hidden2_neurons[1])
+    output_neurons[0].setInput(hidden2_neurons[0])
     output_neurons[0].setInput(hidden2_neurons[2])
 
     output_neurons[1].setInput(hidden2_neurons[0])
-    output_neurons[1].setInput(hidden2_neurons[1])
     output_neurons[1].setInput(hidden2_neurons[2])
+    output_neurons[1].setInput(hidden2_neurons[1])
 
     output_neurons[2].setInput(hidden2_neurons[0])
     output_neurons[2].setInput(hidden2_neurons[1])
@@ -182,13 +191,21 @@ def connectNetwork():
 
 
 connectNetwork()
+#sensorMin = 300
+#sensorMax = 900
 
 def training(cycle):
     for i in range (cycle):
         # pick random data point
-        num=numpy.random.randint(low=0,high=40)
+        num=numpy.random.randint(low=0,high=52)
         for t in range (len(input_neurons)):
-            input_neurons[t].setValue(data[num][t]/1023)
+            # adjusting the sensor input to 0-1.0 scale. min 300, max 900
+            val = (data[num][t]-300)/600
+            if val > 1.0:
+                val = 1.0
+            if val<0:
+                val =0
+            input_neurons[t].setValue(val)
 
         for neuron in hidden1_neurons:
             neuron.forwardUpdate()
@@ -225,7 +242,13 @@ while True:
     sensor[3]=float(input("sensor4 input?" + "\n"))
 
     for t in range (4):
-        input_neurons[t].setValue(sensor[t]/1023)
+        # adjusting the sensor input to 0-1.0 scale. min 300, max 900
+        val = (sensor[t]-300)/(600)
+        if val > 1.0:
+            val = 1.0
+        if val<0:
+            val =0
+        input_neurons[t].setValue(val)
 
     for neuron in hidden1_neurons:
         neuron.forwardUpdate()

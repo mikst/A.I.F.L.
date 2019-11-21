@@ -15,7 +15,8 @@ int incomingByte = 0;
 boolean readMode = true;
 boolean said = false;
 
-
+//byte mySensor = 98;
+//byte nextSensor = 99;
 byte mySensor = 99;
 byte nextSensor = 100;
 
